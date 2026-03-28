@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Rescue | AI Insurance Assistant</title>
+    <meta name="description" content="Use Google AI to instantly analyze insurance notices and get a personalized action plan for your situation.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Policy Rescue</span>
+            </div>
+            <p class="subtitle">AI-Powered Action Plans for Insurance Notices</p>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <!-- Left Side: Input Form -->
+            <section class="input-section glass-panel">
+                <h2>Analyze Notice</h2>
+                
+                <form id="rescue-form">
+                    <!-- Image Upload -->
+                    <div class="form-group">
+                        <label>Upload Insurance Notice</label>
+                        <div class="drop-zone" id="drop-zone">
+                            <input type="file" id="image-input" name="image" accept="image/png, image/jpeg, application/pdf" hidden>
+                            <div class="drop-content" id="drop-content">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <span>Drag & Drop image here or <button type="button" class="text-btn">Browse</button></span>
+                            </div>
+                            <!-- Image Preview -->
+                            <div class="preview-container hidden" id="preview-container">
+                                <img id="image-preview" src="" alt="Notice Preview">
+                                <button type="button" class="remove-btn" id="remove-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Situation Context -->
+                    <div class="form-group">
+                        <label for="situation-input">What's your current situation?</label>
+                        <textarea id="situation-input" name="situation" rows="4" placeholder="e.g., 'I just lost my job last week and can't pay the full premium. I want to keep the life insurance active.'"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="primary-btn" id="submit-btn" disabled>
+                        <span>Generate Action Plan</span>
+                        <div class="spinner hidden"></div>
+                    </button>
+                    <p id="form-error" class="error-text hidden"></p>
+                </form>
+            </section>
+
+            <!-- Right Side: Results -->
+            <section class="results-section glass-panel">
+                <!-- Initial State -->
+                <div id="results-placeholder" class="placeholder-state">
+                    <div class="placeholder-icon">✨</div>
+                    <h3>Awaiting Document</h3>
+                    <p>Upload a notice and describe your situation to get a structured action plan powered by Google Services.</p>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loading-state" class="loading-state hidden">
+                    <div class="pulse-ring"></div>
+                    <h3>Analyzing...</h3>
+                    <p>Extracting details and formulating your action plan using Gemini Flash.</p>
+                </div>
+
+                <!-- Results State -->
+                <div id="results-content" class="results-content hidden">
+                    <!-- Policy Details Card -->
+                    <div class="extraction-card">
+                        <h3>Extracted Details</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <span class="label">Policy Number</span>
+                                <strong id="res-policy-number">--</strong>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Due Date</span>
+                                <strong id="res-due-date">--</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Plan List -->
+                    <div class="action-plan">
+                        <h3>Recommended Action Plan</h3>
+                        <div id="action-steps-container" class="steps-container">
+                            <!-- Steps rendered via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error/Feedback State -->
+                <div id="feedback-state" class="feedback-state hidden">
+                    <div class="error-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    </div>
+                    <h3 id="feedback-title">Data Incomplete</h3>
+                    <p id="feedback-message">We couldn't extract enough information.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
